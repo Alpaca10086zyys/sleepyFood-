@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>顾客购物</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/customer_restaurant.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|Carter+One|Yatra+One">
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><img src="{{ url_for('static', filename='img/icon.png') }}" alt="标识" class="icon"></li>
+            <li><a href="customer_restaurant.html" style="text-decoration: underline;font-size: 25px;">RESTAURANT</a></li>
+            <li><a href="gkdd.html">ORDERS</a></li>
+            <li><a href="gkdz.html">HOME</a></li>
+            <img src="images/顾客购物/咖啡.png" alt="头像" class="user">
+        </ul>
+    </nav>
+
+    <div class="container" style="height: 80vh;">
+        <div class="shops">
+            <h2>商店列表</h2>
+            <div class="shop-buttons">
+                <button id="shop1" onclick="showShop('shop1')"></button>
+                <button id="shop2" onclick="showShop('shop2')"></button>
+                <button id="shop3" onclick="showShop('shop3')"></button>
+                <!-- 添加更多商店按钮 -->
+
+
+
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="shop-products">
+                <h2>商品列表</h2>
+                <div id="shop1" class="shop">
+                    <ul>
+                        <li>商品1</li>
+                        <li>商品2</li>
+                        <li>商品3</li>
+                    </ul>
+                </div>
+                <div id="shop2" class="shop" style="display: none;">
+                    <ul>
+                        <li>商品A</li>
+                        <li>商品B</li>
+                        <li>商品C</li>
+                    </ul>
+                </div>
+                <div id="shop3" class="shop" style="display: none;">
+                    <ul>
+                        <li>商品X</li>
+                        <li>商品Y</li>
+                        <li>商品Z</li>
+                    </ul>
+                </div>
+                <!-- 添加更多商店对应的商品列表 -->
+            </div>
+            <div class="shopping-cart">
+                <h2>选购列表</h2>
+                <ul id="cart">
+                    <!-- 这里将显示选购商品 -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='css/customer_restaurant.js') }}"></script>
+</body>
+
+</html>

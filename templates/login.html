@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleepyfood Login</title>
+    <link href="https://fonts.googleapis.com/css?family=Lora&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background: rgb(244, 236, 225);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .icon {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 200px;
+            height: auto;
+        }
+
+        .container {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            background: rgb(245, 239, 231);
+            border-radius: 8px;
+            padding: 50px;
+            width: 80%;
+            height: 80%;
+        }
+
+        .login-form {
+            flex: 1;
+            padding: 50px;
+            margin-right: 5%;
+        }
+
+        .login-form h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group select {
+            width: 200px;
+            padding: 16px 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: rgb(255, 255, 255);
+            font-size: 16px;
+        }
+
+        .form-group input {
+            width: 430px;
+            height: 64px;
+            padding: 16px 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: rgb(196, 196, 196);
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #aaa;
+            outline: none;
+        }
+
+        .register {
+            margin-top: 10px;
+        }
+
+        .register a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            text-decoration-line: underline;
+        }
+
+        .login {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .login button {
+            width: 245px;
+            height: 64px;
+            border: none;
+            border-radius: 10px;
+            background-color: rgb(251, 225, 190);
+            font: 1.8em sans-serif;
+            cursor: pointer;
+        }
+
+        .login button:hover {
+            background-color: rgb(249, 228, 199);
+            font: 1.9em sans-serif;
+        }
+
+        .cake {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 70%;
+            height: 100%;
+            text-align: center;
+            border-radius: 20px;
+            background: rgb(247, 225, 195);
+            padding: 10px;
+        }
+
+        .cake img {
+            max-width: 80%;
+            margin-top: 10%;
+        }
+
+    </style>
+</head>
+
+<body>
+<img src="{{ url_for('static', filename='img/icon.png') }}" alt="标识" class="icon">
+<div class="container">
+    <form action="/login" method="POST">
+        <div class="login-form">
+            <div class="form-group">
+                <label>用户类型：</label>
+                <select name="type">
+                    <option value="customer">顾客</option>
+                    <option value="merchant">商家</option>
+                    <option value="rider">骑手</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>手机号码：</label>
+                <input type="text" name="phone" placeholder="请输入你的手机号">
+            </div>
+            <div class="form-group">
+                <label>密码：</label>
+                <input type="password" name="password" placeholder="请输入你的密码">
+            </div>
+            <div class="register">
+                <a href="#">注册新用户</a>
+            </div>
+            <div class="login">
+                <button type="submit">LOGIN</button>
+            </div>
+        </div>
+    </form>
+    <div class="cake">
+        <img src="{{ url_for('static', filename='/img/login/cake-3-fill.png') }}" alt="蛋糕图标">
+    </div>
+</div>
+</body>
+
+</html>
