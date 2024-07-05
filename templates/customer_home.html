@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>顾客地址</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|Carter+One|Yatra+One">
+    <style>
+
+        .icon {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 200px;
+            height: auto;
+        }
+
+        nav {
+            background-color: none;
+            overflow: hidden;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin-top: 30px;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            /* 使用 Flexbox 布局 */
+            justify-content: space-around;
+            /* 平均分配空间，文本等距离居中 */
+        }
+
+        nav li a {
+            display: block;
+            font-size: 1.3em;
+            color: rgb(90, 56, 41);
+            font-weight: bold;
+            text-align: center;
+            padding: 14px 0;
+            /* 垂直方向上的内边距 */
+            text-decoration: none;
+            width: 90%;
+            /* 使用宽度撑满 flex 容器的空间 */
+            box-sizing: border-box;
+            /* 确保 padding 不会影响到元素宽度 */
+        }
+
+        nav li img {
+            position: absolute;
+            height: 20px;
+            /* 根据实际情况调整图片高度 */
+            margin-top: 15px;
+            margin-right: 10px;
+            /* 图片和文本之间的间距 */
+            vertical-align: middle;
+            /* 垂直居中对齐 */
+        }
+
+        nav li a:hover {
+            text-decoration: underline;
+            /* 悬浮时出现下划线 */
+        }
+
+        nav li a:hover::after {
+            content: '';
+            /* 生成一个伪元素来实现下划线效果 */
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: white;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: rgb(246, 239, 229);
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+
+        .address-list {
+            border-radius: 20px;
+            background: rgb(245, 232, 214);
+            width: 35%;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .add-button:hover {
+            background: rgb(222, 205, 180);
+        }
+
+        .add-button:hover {
+            background: rgb(222, 205, 180);
+        }
+
+        .addresses h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .address-info {
+            border-radius: 20px;
+            background: rgb(245, 232, 214);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            width: 60%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-left: 10px;
+        }
+
+        .address-button {
+            text-align: center;
+            border-radius: 20px;
+            background: rgb(234, 217, 192);
+            display: block;
+            width: 80%;
+            margin-bottom: 10px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .address-button button {
+            border-radius: 20px;
+            background: rgb(245, 220, 184);
+            display: inline-block;
+            border: none;
+            width: 85%;
+
+            padding: 30px;
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
+
+        .address-button button:hover {
+            background: rgb(252, 223, 182);
+        }
+
+        .add-button,
+        .agree-button {
+            border-radius: 20px;
+            background: rgb(234, 217, 192);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80%;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .agree-button {
+            margin-top: auto;
+        }
+
+        .add-button:hover,
+        .address-button:hover {
+            background: rgb(222, 205, 180);
+        }
+
+        .address-input {
+            border-radius: 10px;
+            width: 80%;
+            padding: 10px;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .address-input:focus {
+            border-color: none;
+            outline: none;
+        }
+
+        .address-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .delete-button {
+            background-color: rgb(234, 217, 192);
+            /* color: w; */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 5px 10px;
+            margin-left: 10px;
+        }
+
+        .delete-button:hover {
+            background-color: rgb(222, 205, 180);
+        }
+    </style>
+</head>
+
+<body>
+<nav>
+    <ul>
+        <li><img src="{{ url_for('static', filename='img/icon.png') }}" alt="标识" class="icon"></li>
+        <li><a href="{{ url_for('customer_dashboard') }}">RESTAURANT</a></li>
+        <li><a href="{{ url_for('customer_order') }}">ORDERS</a></li>
+        <li><a href="{{ url_for('customer_home') }}" style="text-decoration: underline;font-size: 25px;">HOME</a></li>
+        <img src="{{ url_for('static', filename='img/cus_order/customer.png') }}" alt="头像" class="user">
+    </ul>
+</nav>
+
+<div class="container">
+    <div class="address-list">
+        <div class="add-button" onclick="addAddress()">+</div>
+    </div>
+    <div class="address-info" id="address-info">
+        <!-- 这里将显示地址信息 -->
+    </div>
+</div>
+</body>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        loadAddresses();
+    });
+
+    function loadAddresses() {
+        let addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+        let addressList = document.querySelector('.address-list');
+
+        addresses.forEach((address, index) => {
+            createAddressButton(address, index);
+        });
+    }
+
+    function addAddress() {
+        var addressInput = prompt('请输入地址');
+
+        // 如果用户取消或者输入为空，直接返回
+        if (!addressInput || addressInput.trim() === '') {
+            return;
+        }
+
+        let addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+        addresses.push(addressInput);
+        localStorage.setItem('addresses', JSON.stringify(addresses));
+
+        createAddressButton(addressInput, addresses.length - 1);
+    }
+
+    function createAddressButton(address, index) {
+        var firstThreeChars = address.substring(0, 3);
+        var addressList = document.querySelector('.address-list');
+
+        var addressButton = document.createElement('div');
+        addressButton.classList.add('address-button');
+        addressButton.textContent = firstThreeChars;
+        addressButton.setAttribute('onclick', `showAddress('${address}')`);
+
+        var deleteButton = document.createElement('button');
+        deleteButton.textContent = '删除';
+        deleteButton.classList.add('delete-button');
+        deleteButton.setAttribute('onclick', `deleteAddress(${index})`);
+
+        var container = document.createElement('div');
+        container.classList.add('address-container');
+        container.appendChild(addressButton);
+        container.appendChild(deleteButton);
+
+        // 在添加按钮之前插入新的地址按钮容器
+        addressList.insertBefore(container, document.querySelector('.add-button'));
+    }
+
+    function deleteAddress(index) {
+        let addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+        addresses.splice(index, 1);
+        localStorage.setItem('addresses', JSON.stringify(addresses));
+
+        // 重新加载地址按钮
+        document.querySelector('.address-list').innerHTML = '';
+        addresses.forEach((address, index) => {
+            createAddressButton(address, index);
+        });
+
+        // 重新添加添加地址按钮
+        var addButton = document.createElement('div');
+        addButton.classList.add('add-button');
+        addButton.setAttribute('onclick', 'addAddress()');
+        addButton.textContent = '+';
+        document.querySelector('.address-list').appendChild(addButton);
+    }
+
+    function showAddress(address) {
+        var addressInfo = document.getElementById('address-info');
+        addressInfo.textContent = address;
+    }
+
+
+</script>
+</html>

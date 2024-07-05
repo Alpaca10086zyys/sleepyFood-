@@ -1,4 +1,6 @@
 import pymysql
+
+
 # 顾客类
 class Customer:
     def __init__(self, customer_id, username, password, cust_phone):
@@ -41,6 +43,7 @@ class Customer:
             cursor.close()
             connection.close()
 
+
 def create_customer(username, password, cust_phone):
     # 创建顾客对象
     customer = Customer(
@@ -51,6 +54,7 @@ def create_customer(username, password, cust_phone):
     )
     # 插入顾客信息到数据库
     customer.insert_into_db()
+
 
 # 顾客地址类
 class CustomerAddress:
@@ -92,6 +96,7 @@ class CustomerAddress:
             cursor.close()
             connection.close()
 
+
 def create_customer_address(customer_id, user_address):
     # 创建顾客地址对象
     customer_address = CustomerAddress(
@@ -101,7 +106,8 @@ def create_customer_address(customer_id, user_address):
     # 插入顾客地址信息到数据库
     customer_address.insert_into_db()
 
-def  login_customer(cust_phone,password):
+
+def login_customer(cust_phone, password):
     connection = pymysql.connect(
         host='localhost',
         user='food_root_user',
@@ -130,6 +136,7 @@ def  login_customer(cust_phone,password):
     finally:
         connection.close()
 
+
 # 从数据库中获取商家名称列表
 def get_all_merchants():
     connection = pymysql.connect(
@@ -145,23 +152,50 @@ def get_all_merchants():
             result = cursor.fetchall()
             merchants = []
             for row in result:
-                # 假设 row[5] 是商家名称
+                # 假设 row[0] 是商家 ID，row[4] 是商家名称
                 merchants.append({
-                    'name': row[5]
+                    'id': row[0],
+                    'name': row[4]
                 })
             return merchants
     finally:
         connection.close()
+# 从数据库中获取指定商家的商品列表
+def get_products_by_merchant(merchant_id):
+    connection = pymysql.connect(
+        host='localhost',
+        user='food_root_user',
+        password='Aa123456_',
+        database='sleepyfood'
+    )
+    try:
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM menu WHERE merchant_id = %s"
+            cursor.execute(sql, (merchant_id,))
+            result = cursor.fetchall()
+            products = []
+            for row in result:
+                # 假设 row[0] 是商品 ID，row[1] 是商品名称
+                products.append({
+                    'id': row[0],
+                    'name': row[2]
+                })
+            return products
+    finally:
+        connection.close()
+
 
 if __name__ == "__main__":
-    # 从键盘输入顾客地址信息
-    customer_id = int(input("请输入顾客ID: "))
-    user_address = input("请输入顾客地址: ")
+    # # 从键盘输入顾客地址信息
+    # customer_id = int(input("请输入顾客ID: "))
+    # user_address = input("请输入顾客地址: ")
+    #
+    # create_customer_address(customer_id, user_address)
+    # # 从键盘输入顾客信息
+    # username = input("请输入用户名: ")
+    # password = input("请输入密码: ")
+    # cust_phone = input("请输入顾客电话号码: ")
+    #
+    # create_customer(username, password, cust_phone)
 
-    create_customer_address(customer_id, user_address)
-    # 从键盘输入顾客信息
-    username = input("请输入用户名: ")
-    password = input("请输入密码: ")
-    cust_phone = input("请输入顾客电话号码: ")
-
-    create_customer(username, password, cust_phone)
+    print(get_all_merchants())

@@ -1,4 +1,5 @@
-from flask import Flask, jsonify
+from flask import Flask
+from flask import jsonify
 #导入Flask框架，这个框架可以快捷地实现了一个WSGI应用
 from flask import render_template
 #默认情况下，flask在程序文件夹中的templates子文件夹中寻找模块
@@ -6,7 +7,7 @@ from flask import request
 #导入前台请求的request模块
 from flask import redirect,url_for
 import traceback
-from customer import create_customer,login_customer,get_all_merchants
+from customer import create_customer,login_customer,get_all_merchants,get_products_by_merchant
 from merchant import create_merchant,login_merchant
 from rider import create_rider,login_rider
 
@@ -125,16 +126,51 @@ def login_post():
 @app.route('/customer_dashboard')
 def customer_dashboard():
     return render_template('customer_restaurant.html')
+@app.route('/customer_order')
+def customer_order():
+    return render_template('customer_order.html')
+@app.route('/customer_home')
+def customer_home():
+    return render_template('customer_home.html')
+
 @app.route('/get_all_merchants')
-def merchants():
-    return jsonify(get_all_merchants())
+def get_merchants():
+    try:
+        merchants = get_all_merchants()
+        return jsonify(merchants)
+    except Exception as e:
+        print("Error fetching merchants:", e)
+        return jsonify({"error": "Error fetching merchants"}), 500
+
+@app.route('/products/<int:merchant_id>')
+def get_products(merchant_id):
+    try:
+        products = get_products_by_merchant(merchant_id)
+        return jsonify(products)
+    except Exception as e:
+        print("Error fetching products:", e)
+        return jsonify({"error": "Error fetching products"}), 500
+
 @app.route('/merchant_dashboard')
 def merchant_dashboard():
     return "商家界面"
+@app.route('/merchant_order')
+def merchant_order():
+    return render_template('merchant_order.html')
+@app.route('/merchant_menu')
+def merchant_menu():
+    return render_template('merchant_menu.html')
+
 
 @app.route('/rider_dashboard')
 def rider_dashboard():
     return "骑手界面"
+@app.route('/rider_order')
+def rider_order():
+    return render_template('rider_order.html')
+@app.route('/rider_map')
+def rider_map():
+    return render_template('rider_map.html')
 
 if __name__ == '__main__':
     app.run()

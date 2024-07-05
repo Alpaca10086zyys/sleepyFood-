@@ -1,0 +1,125 @@
+.icon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 200px;
+    height: auto;
+}
+
+nav {
+    background-color: none;
+    overflow: hidden;
+}
+
+nav ul {
+    list-style-type: none;
+    margin-top: 30px;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-around;
+}
+
+nav li a {
+    display: block;
+    font-size: 1.3em;
+    color: rgb(90, 56, 41);
+    font-weight: bold;
+    text-align: center;
+    padding: 14px 0;
+    text-decoration: none;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+nav li img {
+    position: absolute;
+    height: 20px;
+    margin-top: 15px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+nav li a:hover {
+    text-decoration: underline;
+}
+
+.user {
+    width: 5%;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: rgb(246, 239, 229);
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.foods {
+    border-radius: 20px;
+    background: rgb(245, 232, 214);
+    width: 20%;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.foods h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.food-buttons {
+    text-align: center;
+}
+
+.food-buttons button {
+    border-radius: 20px;
+    background: rgb(245, 220, 184);
+    display: inline-block;
+    border: none;
+    width: 85%;
+    padding: 30px;
+    margin-bottom: 30px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.food-buttons button:hover {
+    background: rgb(252, 223, 182);
+}
+
+.main-content {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 75%;
+    padding: 20px;
+    box-sizing: border-box;
+    background: rgb(245, 232, 214);
+    display: flex;
+    justify-content: space-between;
+    margin-left: 20px;
+    border-radius: 20px;
+}
+
+.food {
+     display: inline-block;
+    border-radius: 20px;
+    vertical-align: top;
+}
+
+.food-information h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.user {
+    width: 5%;
+}

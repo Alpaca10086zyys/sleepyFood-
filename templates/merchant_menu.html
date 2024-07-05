@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商家菜品</title>
+    <link rel="stylesheet" href="merchant_menu.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|Carter+One|Yatra+One">
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><img src="images/商家菜品/logo.png" alt="标识" class="icon"></li>
+            <li><a href="merchant_menu.html" style="text-decoration: underline;font-size: 25px;">MENU</a></li>
+            <li><a href="merchant_order.html">ORDER</a></li>
+            <img src="images/商家订单/merchant.png" alt="头像" class="user">
+        </ul>
+    </nav>
+
+    <div class="container" style="height: 80vh;">
+        <div class="foods">
+            <h2>菜品列表</h2>
+            <div class="food-buttons">
+                <button id="food1" onclick="showFood('food1')">Food 1</button>
+                <button id="food2" onclick="showFood('food2')">Food 2</button>
+                <button id="food3" onclick="showFood('food3')">Food 3</button>
+                <button id="add-food-button">+</button>
+
+                <!-- 添加更多菜品按钮 -->
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="food-information">
+                <h2>菜品信息</h2>
+                <div id="food1-info" class="food">
+                    <ul>
+                        <li>Food 1 Details</li>
+                    </ul>
+                </div>
+                <div id="food2-info" class="food" style="display: none;">
+                    <ul>
+                        <li>Food 2 Details</li>
+                    </ul>
+                </div>
+                <div id="food3-info" class="food" style="display: none;">
+                    <ul>
+                        <li>Food 3 Details</li>
+
+                    </ul>
+                </div>
+                <!-- 添加更多菜品对应的商品列表 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="merchant_menu.js"></script>
+</body>
+
+</html>
+
