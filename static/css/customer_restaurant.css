@@ -24,14 +24,13 @@ nav ul {
 
 nav li a {
     display: block;
-    font-size: 1.3em;
-    color: rgb(90, 56, 41);
+    color: rgb(0, 0, 0);
     font-weight: bold;
     text-align: center;
     padding: 14px 0;
     /* 垂直方向上的内边距 */
     text-decoration: none;
-    width: 90%;
+    width: 80%;
     /* 使用宽度撑满 flex 容器的空间 */
     box-sizing: border-box;
     /* 确保 padding 不会影响到元素宽度 */
@@ -64,9 +63,6 @@ nav li a:hover::after {
     background-color: white;
 }
 
-.user{
-    width: 5%;
-}
 
 body {
     font-family: Arial, sans-serif;
@@ -78,12 +74,14 @@ body {
     margin: 0;
 }
 
+/* 下面所有内容 */
 .container {
     display: flex;
     justify-content: space-between;
     margin: 20px;
 }
 
+/* 商店列表 */
 .shops {
     border-radius: 20px;
     background: rgb(245, 232, 214);
@@ -103,20 +101,16 @@ body {
 
 .shop-buttons button {
     border-radius: 20px;
-    background: rgb(245, 220, 184);
+    background: rgb(234, 217, 192);
     display: inline-block;
     border: none;
-    width: 85%;
-
-    padding: 30px;
-    margin-bottom: 30px;
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 20px;
     cursor: pointer;
 }
 
-.shop-buttons button:hover {
-    background: rgb(252, 223, 182);
-}
-
+/* 右侧大框 */
 .main-content {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 75%;
@@ -129,6 +123,7 @@ body {
     border-radius: 20px;
 }
 
+/* 商品列表 */
 .shop-products {
     display: inline-block;
     border-radius: 20px;
@@ -136,6 +131,11 @@ body {
     width: 60%;
 }
 
+.shop-products li {
+    list-style-type: none;
+}
+
+/* 购物车 */
 .shopping-cart {
     display: inline-block;
     border-radius: 20px;
@@ -151,16 +151,30 @@ body {
     margin-bottom: 10px;
 }
 
-/* .shop {
-    display: none;
-} */
-
 .shopping-cart ul {
-    /* list-style-type: none; */
     padding: 0;
 }
 
 .shopping-cart li {
+    list-style-type: none;
     padding: 10px;
     border-bottom: 1px solid #ccc;
+}
+
+.product-item {
+    width: 80%;
+    border-radius: 10px;
+    background: rgb(234, 217, 192);
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.product-item:hover {
+    background: rgb(222, 205, 180);
+}
+
+.quantity {
+    margin-left: 5px;
+    font-weight: bold;
 }
