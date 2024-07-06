@@ -79,7 +79,7 @@
     <img src="{{ url_for('static', filename='img/icon.png') }}" alt="标识" class="icon">
     <div class="container">
         <h2>顾客注册</h2>
-        <form action="/register_customer" method="post">
+        <form action="/register_customer" method="post" onsubmit="return validateForm()">
             <div class="form-group">
                 <input type="text" id="username" name="username" placeholder="用户名" required autocomplete="username">
             </div>
@@ -93,4 +93,14 @@
         </form>
     </div>
 </body>
+<script>
+    function validateForm() {
+        var phoneInput = document.getElementById("phone");
+        if (phoneInput.value.length !== 11) {
+            alert("手机号码必须是11位！");
+            return false; // 阻止表单提交
+        }
+        return true; // 允许表单提交
+    }
+</script>
 </html>
