@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>骑手订单</title>
+    <link rel="stylesheet" href="static/css/rider_order.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|Carter+One|Yatra+One">
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><img src="{{ url_for('static', filename='img/icon.png') }}" alt="标识" class="icon"></li>
+            <li><a href="{{ url_for('rider_map') }}">MAP</a></li>
+            <li><a href="{{ url_for('rider_dashboard') }}" style="text-decoration: underline; font-size: 25px;">ORDER</a></li>
+            <img src="{{ url_for('static', filename='img/rider.png') }}" alt="头像" class="user">
+        </ul>
+    </nav>
+
+    <div class="container" style="height: 80vh;">
+        <div class="orders">
+            <h2>订单列表</h2>
+            <div class="order-buttons" id="order-buttons-container">
+                <!-- 动态生成订单按钮 -->
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="order-information">
+                <!-- 订单详情将在这里显示 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/rider_get_all_orders')
+                .then(response => response.json())
+                .then(orders => {
+                    const orderButtonsContainer = document.getElementById('order-buttons-container');
+                    if (!orderButtonsContainer) {
+                        console.error('Container for shop buttons not found.');
+                        return;
+                    }
+                    orders.forEach(order => {
+                        const button = document.createElement('button');
+                        button.textContent = 'Order ' + order.order_id;
+                        button.classList.add('order-button');
+                        button.addEventListener('click', () => {
+                            displayOrderDetails(order.order_id, order.shop_address, order.cus_address,order.order_status);
+                        });
+                        orderButtonsContainer.appendChild(button);
+                    });
+                })
+                .catch(error => console.error('Error fetching orders:', error));
+        });
+        function displayOrderDetails(order_id, shop_address, cus_address,status) {
+            const orderInfoContainer = document.querySelector('.order-information');
+            if (!orderInfoContainer) {
+                console.error('Order information container not found.');
+                return;
+            }
+            if(status==1){
+                orderInfoContainer.innerHTML = `
+                    <h2>订单信息</h2>
+                    <div id="order${order_id}-info" class="order">
+                        <div class="customer-info">
+                            <img src="{{ url_for('static', filename='img/cus_order/customer.png') }}" alt="顾客头像" class="customer-avatar">
+                            <div class="order-details">
+                                <div class="order-id">Order: ${order_id}</div>
+                                <div class="merchant-address">商家地址: ${shop_address}</div>
+                                <div class="customer-address">顾客地址: ${cus_address}</div>
+                                <div class="order-completed">
+                                    <button class="complete-btn" onclick="toggleComplete(${order_id},this)">✔️</button>
+                                    已送达
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            else{
+                orderInfoContainer.innerHTML = `
+                    <h2>订单信息</h2>
+                    <div id="order${order_id}-info" class="order">
+                        <div class="customer-info">
+                            <img src="{{ url_for('static', filename='img/cus_order/customer.png') }}" alt="顾客头像" class="customer-avatar">
+                            <div class="order-details">
+                                <div class="order-id">Order: ${order_id}</div>
+                                <div class="merchant-address">商家地址: ${shop_address}</div>
+                                <div class="customer-address">顾客地址: ${cus_address}</div>
+                                <div class="order-completed">
+                                    <button class="complete-btn" style="background-color: rgb(255, 129, 45)"">✔️</button>
+                                    已送达
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function toggleComplete(order_id,button) {
+            button.style.backgroundColor = 'rgb(255, 129, 45)';
+            button.disabled = true;
+
+            var data = { 'state': 'ok','order_id':order_id};
+            var jsonData = JSON.stringify(data);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/rider_send_state', true);
+            xhr.setRequestHeader('Content-type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    console.log(response);
+                }
+            };
+            xhr.send(jsonData);
+        }
+    </script>
+</body>
+
+</html>

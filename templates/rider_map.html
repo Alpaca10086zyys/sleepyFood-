@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>骑手订单</title>
+    <link rel="stylesheet" href="static/css/rider_map.css">
+
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><img src="{{ url_for('static', filename='img/icon.png') }}" alt="标识" class="icon"></li>
+            <li><a href="{{ url_for('rider_map') }}" style="text-decoration: underline; font-size: 25px;">MAP</a></li>
+            <li><a href="{{ url_for('rider_dashboard') }}">ORDER</a></li>
+            <img src="{{ url_for('static', filename='img/rider.png') }}" alt="头像" class="user">
+        </ul>
+    </nav>
+
+    <div class="totalcontainer" style="height: 80vh;">
+        <div class="order-list">
+            <h2>订单列表</h2>
+            <div class="order-buttons" id="order-buttons-container">
+
+                <!-- 添加更多订单按钮 -->
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="map-details">
+                <h2>位置信息</h2>
+                <div class="image-container">
+                    <div class="image-window">
+                        <img src="{{ url_for('static', filename='img/map.png') }}" alt="Large Image" class="draggable-image">
+                    </div>
+                </div>
+                <!-- 添加更多订单对应的商品列表 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const img = document.querySelector('.draggable-image');
+        const container = document.querySelector('.image-container');
+        let isDragging = false;
+        let startX, startY, initialX, initialY;
+
+        img.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            initialX = img.offsetLeft;
+            initialY = img.offsetTop;
+            img.style.cursor = 'grabbing';
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (isDragging) {
+                let dx = e.clientX - startX;
+                let dy = e.clientY - startY;
+
+                // Calculate new positions
+                let newX = initialX + dx;
+                let newY = initialY + dy;
+
+                // Calculate boundaries
+                const containerRect = container.getBoundingClientRect();
+                const imgRect = img.getBoundingClientRect();
+
+                if (newX > 0) {
+                    newX = 0;
+                } else if (newX < containerRect.width - imgRect.width) {
+                    newX = containerRect.width - imgRect.width;
+                }
+
+                if (newY > 0) {
+                    newY = 0;
+                } else if (newY < containerRect.height - imgRect.height) {
+                    newY = containerRect.height - imgRect.height;
+                }
+
+                // Set the new positions
+                img.style.left = `${newX}px`;
+                img.style.top = `${newY}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+            img.style.cursor = 'grab';
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/rider_get_all_orders')
+                .then(response => response.json())
+                .then(orders => {
+                    const orderButtonsContainer = document.getElementById('order-buttons-container');
+                    if (!orderButtonsContainer) {
+                        console.error('Container for shop buttons not found.');
+                        return;
+                    }
+                    orders.forEach(order => {
+                        const button = document.createElement('button');
+                        button.textContent = 'Order ' + order.order_id;
+                        button.classList.add('order-button');
+                        button.addEventListener('click', () => {
+                            {#displayOrderDetails(order.order_id, order.shop_address, order.cus_address,order.order_status);#}
+                        });
+                        orderButtonsContainer.appendChild(button);
+                    });
+                })
+                .catch(error => console.error('Error fetching orders:', error));
+        });
+        </script>
+</body>
+
+</html>

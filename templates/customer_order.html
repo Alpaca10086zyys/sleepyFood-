@@ -1,67 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>顾客订单</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/customer_order.css') }}">
+    <style>
+        .icon {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 200px;
+            height: auto;
+        }
+
+        nav {
+            background-color: none;
+            overflow: hidden;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin-top: 30px;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            /* 使用 Flexbox 布局 */
+            justify-content: space-around;
+            /* 平均分配空间，文本等距离居中 */
+        }
+
+        nav li a {
+            display: block;
+            font-size: 1.3em;
+            color: rgb(90, 56, 41);
+            font-weight: bold;
+            text-align: center;
+            padding: 14px 0;
+            /* 垂直方向上的内边距 */
+            text-decoration: none;
+            width: 90%;
+            /* 使用宽度撑满 flex 容器的空间 */
+            box-sizing: border-box;
+            /* 确保 padding 不会影响到元素宽度 */
+        }
+
+        nav li img {
+            position: absolute;
+            height: 20px;
+            /* 根据实际情况调整图片高度 */
+            margin-top: 15px;
+            margin-right: 10px;
+            /* 图片和文本之间的间距 */
+            vertical-align: middle;
+            /* 垂直居中对齐 */
+        }
+
+        nav li a:hover {
+            text-decoration: underline;
+            /* 悬浮时出现下划线 */
+        }
+
+        nav li a:hover::after {
+            content: '';
+            /* 生成一个伪元素来实现下划线效果 */
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: white;
+        }
+
+        .user {
+            width: 5%;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: rgb(246, 239, 229);
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+
+        .orders {
+            border-radius: 20px;
+            background: rgb(245, 232, 214);
+            width: 20%;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .orders h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .order-buttons {
+            text-align: center;
+        }
+
+        .order-buttons button {
+            border-radius: 20px;
+            background: rgb(234, 217, 192);
+            display: inline-block;
+            border: none;
+            width: 85%;
+            padding: 15px;
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
+
+        .order-buttons button:hover {
+            background: rgb(243, 227, 203);
+        }
+
+        .main-content {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 75%;
+            padding: 20px;
+            box-sizing: border-box;
+            background: rgb(245, 232, 214);
+            display: flex;
+            justify-content: space-between;
+            margin-left: 20px;
+            border-radius: 20px;
+        }
+
+        .order-information {
+            display: inline-block;
+            border-radius: 20px;
+            vertical-align: top;
+            width: 60%;
+        }
+
+        .order-information h2 {
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        .order-details {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .customer-avatar {
+            border-radius: 50%;
+            width: 130px;
+            height: auto;
+            margin-right: 20px;
+        }
+
+        .total_price {
+            text-align: right;
+            padding-right: 20px;
+            /* background-color: rgb(243, 228, 205); */
+        }
+
+        .order-content {
+            flex-grow: 1;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .shop-name,
+        .order_address,
+        .order-all {
+            border-radius: 10px;
+            background-color: rgb(234, 217, 192);
+            padding: 10px;
+            flex-grow: 1;
+            margin-bottom: 10px;
+        }
+    </style>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|Carter+One|Yatra+One">
 </head>
 
 <body>
-    <nav>
-        <ul>
-            <li><img src="{{ url_for('static', filename='img/icon.png') }}" alt="标识" class="icon"></li>
-            <li><a href="{{ url_for('customer_dashboard') }}" >RESTAURANT</a></li>
-            <li><a href="{{ url_for('customer_order') }}" style="text-decoration: underline;font-size: 25px;">ORDERS</a></li>
-            <li><a href="{{ url_for('customer_home') }}">HOME</a></li>
-            <img src="{{ url_for('static', filename='img/cus_order/customer.png') }}" alt="头像" class="user">
-        </ul>
-    </nav>
+<nav>
+    <ul>
+        <li><img src="{{ url_for('static', filename='img/icon.png') }}" alt="标识" class="icon"></li>
+        <li><a href="{{ url_for('customer_dashboard') }}">RESTAURANT</a></li>
+        <li><a href="{{ url_for('customer_order') }}" style="text-decoration: underline;font-size: 25px;">ORDERS</a>
+        </li>
+        <li><a href="{{ url_for('customer_home') }}">HOME</a></li>
+        <img src="{{ url_for('static', filename='img/cus_order/customer.png') }}" alt="头像" class="user">
+    </ul>
+</nav>
 
-    <div class="container" style="height: 80vh;">
-        <div class="orders">
-            <h2>订单列表</h2>
-            <div class="order-buttons">
-                <button id="order1" onclick="showShop('order1')"></button>
-                <button id="order2" onclick="showShop('order1')"></button>
-                <button id="order3" onclick="showShop('order1')"></button>
-                <!-- 添加更多商店按钮 -->
-               
-
-
-            </div>
-        </div>
-
-        <div class="main-content">
-            <div class="order-information">
-                <h2>订单信息</h2>
-                <div id="order1" class="order">
-                    <ul>
-                        <li>订单1</li>
-                        
-                    </ul>
-                </div>
-                <div id="order2" class="order" style="display: none;">
-                    <ul>
-                        <li>订单A</li>
-                        
-                    </ul>
-                </div>
-                <div id="order3" class="order" style="display: none;">
-                    <ul>
-                        <li>订单Z</li>
-                        
-                    </ul>
-                </div>
-                <!-- 添加更多商店对应的商品列表 -->
-            </div>
-            
+<div class="container" style="height: 80vh;">
+    <div class="orders">
+        <h2>订单列表</h2>
+        <div class="order-buttons" id="order-buttons-container">
+            {#            <button id="order1" onclick="showOrder('order1')"></button>#}
+            {#            <button id="order2" onclick="showOrder('order2')"></button>#}
+            {#            <button id="order3" onclick="showOrder('order3')"></button>#}
         </div>
     </div>
 
-    <script src="{{ url_for('static',filename='js/customer_order.js') }}"></script>
+    <div class="main-content">
+        <div class="order-information">
+            <h2>订单信息</h2>
+{#            <div id="order1_info" class="order">#}
+{#                <div class="order-details">#}
+{#                    <img src="peo_pic.jpg" alt="顾客头像" class="customer-avatar">#}
+{#                    <div class="order-content">#}
+{#                        <div class="shop-name" id="shop1-name">店铺名称</div>#}
+{#                        <div class="order_address" id="order1-address">收货地址</div>#}
+{#                        <div class="order-all" id="order1_items">#}
+{#                            <ul>#}
+{#                                <li>菜品1 - 数量: 3</li>#}
+{#                                <li>菜品2 - 数量: 1</li>#}
+{#                                <li>菜品3 - 数量: 4</li>#}
+{#                            </ul>#}
+{#                            <div class="total_price">总价格: 100</div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('/customer_get_all_orders')
+            .then(response => response.json())
+            .then(orders => {
+                const orderButtonsContainer = document.getElementById('order-buttons-container');
+                if (!orderButtonsContainer) {
+                    console.error('Container for shop buttons not found.');
+                    return;
+                }
+
+                // Group orders by order_id
+                const groupedOrders = {};
+                orders.forEach(order => {
+                    if (!groupedOrders[order.order_id]) {
+                        groupedOrders[order.order_id] = {
+                            order_id: order.order_id,
+                            total_price: order.total_price,
+                            address: order.cus_address,
+                            shopName: order.shop_name,
+                            foodItems: [] {#商店名称，增#}
+                        };
+                    }
+                    groupedOrders[order.order_id].foodItems.push({
+                        name: order.menu_name,
+                        quantity: order.menu_item_count
+                    });
+                });
+
+                Object.values(groupedOrders).forEach(order => {
+                    const button = document.createElement('button');
+                    button.textContent = 'Order ' + order.order_id;
+                    button.classList.add('order-button');
+                    button.addEventListener('click', () => {
+                        const containerId = 'order' + order.order_id + '-info';
+                        showOrder(containerId);
+                        displayOrderDetails(
+                            containerId,
+                            order.shopName,
+                            order.address,
+                            order.foodItems,
+                            order.total_price,
+                        );
+                    });
+
+                    orderButtonsContainer.appendChild(button);
+
+                    // Create corresponding order container dynamically
+                    const orderContainer = document.createElement('div');
+                    orderContainer.id = 'order' + order.order_id + '-info';
+                    orderContainer.classList.add('order');
+                    orderContainer.style.display = 'none';
+                    orderContainer.innerHTML = `
+                        <div class="order-details">
+                            <img src="{{ url_for('static', filename='img/cus_order/customer.png') }}" alt="顾客头像" class="customer-avatar">
+                            <div class="order-content">
+                                <div class="shop-name" id="shop${order.order_id}-name"></div>
+                                <div class="order_address" id="order${order.order_id}-address"></div>
+                                <div class="order-all" id="order${order.order_id}_items">
+                                    <ul></ul>
+                                    <div class="total_price"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    document.querySelector('.order-information').appendChild(orderContainer);
+                });
+            })
+            .catch(error => console.error('Error fetching orders:', error));
+    });
+
+    function showOrder(containerId) {
+        const orders = document.querySelectorAll('.order');
+        orders.forEach(order => order.style.display = 'none');
+        const targetOrder = document.getElementById(containerId);
+        if (targetOrder) {
+            targetOrder.style.display = 'block';
+        } else {
+            console.error(`Order container with id ${containerId} not found.`);
+        }
+        {#document.getElementById(orderId + '_info').style.display = 'block';#}
+    }
+
+    function displayOrderDetails(containerId, shopName, address, foodItems, totalPrice) {
+        const shopNameElement = document.getElementById('shop' + containerId.split('order')[1].split('-info')[0] + '-name');
+        const orderAddressElement = document.getElementById('order' + containerId.split('order')[1].split('-info')[0] + '-address');
+        const orderItemsElement = document.getElementById('order' + containerId.split('order')[1].split('-info')[0] + '_items').querySelector('ul');
+        const orderPriceElement = document.getElementById('order' + containerId.split('order')[1].split('-info')[0] + '_items').querySelector('.total_price');
+
+        shopNameElement.textContent = '商店: ' + shopName;
+        orderAddressElement.textContent = '地址: ' + address;
+
+        orderItemsElement.innerHTML = '';
+        foodItems.forEach(item => {
+            const listItem = document.createElement('li');
+            listItem.textContent = item.name + ' x' + item.quantity;
+            orderItemsElement.appendChild(listItem);
+        });
+
+        orderPriceElement.textContent = '总价: ¥' + totalPrice;
+    }
+</script>
 </body>
 
 </html>

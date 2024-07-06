@@ -6,218 +6,220 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>顾客购物</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|Carter+One|Yatra+One">
-    <style>.icon {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        width: 200px;
-        height: auto;
-    }
+    <style>
+        .icon {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 200px;
+            height: auto;
+        }
 
-    nav {
-        background-color: none;
-        overflow: hidden;
-    }
+        nav {
+            background-color: none;
+            overflow: hidden;
+        }
 
-    nav ul {
-        list-style-type: none;
-        margin-top: 30px;
-        padding: 0;
-        overflow: hidden;
-        display: flex;
-        /* 使用 Flexbox 布局 */
-        justify-content: space-around;
-        /* 平均分配空间，文本等距离居中 */
-    }
+        nav ul {
+            list-style-type: none;
+            margin-top: 30px;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            /* 使用 Flexbox 布局 */
+            justify-content: space-around;
+            /* 平均分配空间，文本等距离居中 */
+        }
 
-    nav li a {
-        display: block;
-        font-size: 1.3em;
-        color: rgb(90, 56, 41);
-        font-weight: bold;
-        text-align: center;
-        padding: 14px 0;
-        /* 垂直方向上的内边距 */
-        text-decoration: none;
-        width: 90%;
-        /* 使用宽度撑满 flex 容器的空间 */
-        box-sizing: border-box;
-        /* 确保 padding 不会影响到元素宽度 */
-    }
+        nav li a {
+            display: block;
+            font-size: 1.3em;
+            color: rgb(90, 56, 41);
+            font-weight: bold;
+            text-align: center;
+            padding: 14px 0;
+            /* 垂直方向上的内边距 */
+            text-decoration: none;
+            width: 90%;
+            /* 使用宽度撑满 flex 容器的空间 */
+            box-sizing: border-box;
+            /* 确保 padding 不会影响到元素宽度 */
+        }
 
-    nav li img {
-        position: absolute;
-        height: 20px;
-        /* 根据实际情况调整图片高度 */
-        margin-top: 15px;
-        margin-right: 10px;
-        /* 图片和文本之间的间距 */
-        vertical-align: middle;
-        /* 垂直居中对齐 */
-    }
+        nav li img {
+            position: absolute;
+            height: 20px;
+            /* 根据实际情况调整图片高度 */
+            margin-top: 15px;
+            margin-right: 10px;
+            /* 图片和文本之间的间距 */
+            vertical-align: middle;
+            /* 垂直居中对齐 */
+        }
 
-    nav li a:hover {
-        text-decoration: underline;
-        /* 悬浮时出现下划线 */
-    }
+        nav li a:hover {
+            text-decoration: underline;
+            /* 悬浮时出现下划线 */
+        }
 
-    nav li a:hover::after {
-        content: '';
-        /* 生成一个伪元素来实现下划线效果 */
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 1px;
-        background-color: white;
-    }
+        nav li a:hover::after {
+            content: '';
+            /* 生成一个伪元素来实现下划线效果 */
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: white;
+        }
 
-    .user {
-        width: 5%;
-    }
+        .user {
+            width: 5%;
+        }
 
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background: rgb(246, 239, 229);
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: rgb(246, 239, 229);
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-    .container {
-        display: flex;
-        justify-content: space-between;
-        margin: 20px;
-    }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
 
-    .shops {
-        border-radius: 20px;
-        background: rgb(245, 232, 214);
-        width: 20%;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+        .shops {
+            border-radius: 20px;
+            background: rgb(245, 232, 214);
+            width: 20%;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-    .shops h2 {
-        text-align: center;
-        margin-bottom: 10px;
-    }
+        .shops h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    .shop-buttons {
-        text-align: center;
-    }
+        .shop-buttons {
+            text-align: center;
+        }
 
-    .shop-buttons button {
-        border-radius: 20px;
-        background: rgb(245, 220, 184);
-        display: inline-block;
-        border: none;
-        width: 85%;
-        padding: 30px;
-        margin-bottom: 30px;
-        cursor: pointer;
-    }
+        .shop-buttons button {
+            border-radius: 20px;
+            background: rgb(234, 217, 192);
+            /* ++ */
+            display: inline-block;
+            border: none;
+            width: 85%;
+            padding: 15px;
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
 
-    .shop-buttons button:hover {
-        background: rgb(252, 223, 182);
-    }
+        .shop-buttons button:hover {
+            background: rgb(252, 223, 182);
+        }
 
-    /* 右侧大框 */
-    .main-content {
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 75%;
-        padding: 20px;
-        box-sizing: border-box;
-        background: rgb(245, 232, 214);
-        display: flex;
-        justify-content: space-between;
-        margin-left: 20px;
-        border-radius: 20px;
-    }
+        /* 右侧大框 */
+        .main-content {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 75%;
+            padding: 20px;
+            box-sizing: border-box;
+            background: rgb(245, 232, 214);
+            display: flex;
+            justify-content: space-between;
+            margin-left: 20px;
+            border-radius: 20px;
+        }
 
-    /* 商品列表 */
-    .shop-products {
-        display: inline-block;
-        border-radius: 20px;
-        vertical-align: top;
-        width: 60%;
-    }
+        /* 商品列表 */
+        .shop-products {
+            display: inline-block;
+            border-radius: 20px;
+            vertical-align: top;
+            width: 60%;
+        }
 
-    .shop-products li {
-        list-style-type: none;
-    }
+        .shop-products li {
+            list-style-type: none;
+        }
 
-    /* 购物车 */
-    .shopping-cart {
-        display: inline-block;
-        border-radius: 20px;
-        vertical-align: top;
-        width: 40%;
-        background-color: rgb(251, 238, 221);
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    }
+        /* 购物车 */
+        .shopping-cart {
+            display: inline-block;
+            border-radius: 20px;
+            vertical-align: top;
+            width: 40%;
+            background-color: rgb(251, 238, 221);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
 
-    .shop-products h2,
-    .shopping-cart h2 {
-        text-align: center;
-        margin-bottom: 10px;
-    }
+        .shop-products h2,
+        .shopping-cart h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
 
-    .shopping-cart ul {
-        padding: 0;
-    }
+        .shopping-cart ul {
+            padding: 0;
+        }
 
-    .shopping-cart li {
-        list-style-type: none;
-        padding: 10px;
-        border-bottom: 1px solid #ccc;
-    }
+        .shopping-cart li {
+            list-style-type: none;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
 
-    .shopping-cart button {
-        display: block;
-        width: 80%;
-        margin: 0 auto;
-        /* 水平居中按钮 */
-        padding: 10px;
-        border-radius: 10px;
-        background-color: rgb(234, 217, 192);
-        cursor: pointer;
-        border: none;
-    }
+        .shopping-cart button {
+            display: block;
+            width: 80%;
+            margin: 0 auto;
+            /* 水平居中按钮 */
+            padding: 10px;
+            border-radius: 10px;
+            background-color: rgb(234, 217, 192);
+            cursor: pointer;
+            border: none;
+        }
 
-    .shopping-cart button:hover {
-        background-color: rgb(222, 205, 180);
-    }
+        .shopping-cart button:hover {
+            background-color: rgb(222, 205, 180);
+        }
 
-    .product-item {
-        width: 80%;
-        border-radius: 10px;
-        background: rgb(234, 217, 192);
-        padding: 10px;
-        margin-bottom: 10px;
-        cursor: pointer;
-    }
+        .product-item {
+            width: 80%;
+            border-radius: 10px;
+            background: rgb(234, 217, 192);
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
 
-    .product-item:hover {
-        background: rgb(222, 205, 180);
-    }
+        .product-item:hover {
+            background: rgb(222, 205, 180);
+        }
 
-    .quantity {
-        margin-left: 5px;
-        font-weight: bold;
-    }
+        .quantity {
+            margin-left: 5px;
+            font-weight: bold;
+        }
 
-    #address-select {
-        display: block;
-        margin: 5px auto 0;
-        margin-bottom: 10px;
-        /* 20px spacing from the top, auto margin on sides for centering */
-        padding: 5px;
-        /* width: 50%; */
-        text-align: center;
-    }
+        #address-select {
+            display: block;
+            margin: 5px auto 0;
+            margin-bottom: 10px;
+            /* 20px spacing from the top, auto margin on sides for centering */
+            padding: 5px;
+            /* width: 50%; */
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -253,12 +255,12 @@
             <ul id="cart">
                 <!-- 这里将显示选购商品 -->
             </ul>
-
             <select id="address-select">
                 <!-- 这里将显示选项 -->
                 <option value="" disabled selected>请选择送货地址</option>
             </select>
-            <button>确定</button>
+
+            <button id="submit-button">确定</button>
         </div>
     </div>
 </div>
@@ -281,7 +283,7 @@
         // 加载商品信息
         fetch('/products/' + shopId)
             .then(response => response.json())
-            .then(products => {
+            .then(products => {console.log('Products fetched successfully:', products);
                 var shopItemsContainer = document.getElementById('shop-items');
                 shopItemsContainer.innerHTML = '';
                 products.forEach(product => {
@@ -321,16 +323,22 @@
     });
 
     function loadAddresses() {
-        let addresses = JSON.parse(localStorage.getItem('addresses')) || [];
-        let select = document.getElementById('address-select');
+        fetch('/get_addresses')  // 发送 GET 请求到 Flask 后端路由
+            .then(response => response.json())
+            .then(data => {
+                let select = document.getElementById('address-select');
+                select.innerHTML = ''; // 清空之前的选项
 
-        addresses.forEach(address => {
-            let option = document.createElement('option');
-            option.value = address;
-            option.textContent = address;
-            select.appendChild(option);
-        });
+                data.forEach(address => {
+                    let option = document.createElement('option');
+                    option.value = address.address; // 设置选项的值为地址字段
+                    option.textContent = address.address; // 设置选项的显示文本为地址字段
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error loading addresses:', error));
     }
+
 
     document.addEventListener('DOMContentLoaded', () => {
         fetch('/get_all_merchants')
@@ -347,6 +355,7 @@
                     button.classList.add('shop-button');
                     button.addEventListener('click', () => {
                         {#showShop(`shop${shop.id}_items`);#}
+                        console.log("shopbutton");
                         showShop(shop.id);
                     });
 
@@ -354,6 +363,42 @@
                 });
             })
             .catch(error => console.error('Error fetching merchants:', error));
+    });
+
+    document.getElementById('submit-button').addEventListener('click', function () {
+        var cart = document.getElementById('cart');
+        var items = cart.querySelectorAll('li');
+        var cartItems = [];
+
+        items.forEach(function (item) {
+            var productName = item.getAttribute('data-name');
+            var quantity = item.querySelector('.quantity').dataset.count;
+            cartItems.push({name: productName, quantity: quantity});
+        });
+
+        var address = document.getElementById('address-select').value;
+
+        var data = {
+            cart_items: cartItems,
+            address: address
+        };
+
+        fetch('/submit-cart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Success:', data);
+                alert('购物车提交成功');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('提交失败，请重试');
+            });
     });
 
 

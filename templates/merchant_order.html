@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商家订单</title>
+    <link rel="stylesheet" href="static/css/merchant_order.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|Carter+One|Yatra+One">
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><img src="{{ url_for('static', filename='img/icon.png') }}" alt="标识" class="icon"></li>
+            <li><a href="{{ url_for('merchant_dashboard') }}">MENU</a></li>
+            <li><a href="{{ url_for('merchant_order') }}" style="text-decoration: underline; font-size: 25px;">ORDER</a></li>
+            <img src="{{ url_for('static', filename='img/merchant.png') }}" alt="头像" class="user">
+        </ul>
+    </nav>
+
+    <div class="container" style="height: 80vh;">
+        <div class="orders">
+            <h2>订单列表</h2>
+            <div class="order-buttons" id="order-buttons-container">
+                <!-- 动态生成订单按钮 -->
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="order-information">
+                <h2>订单信息</h2>
+                <!-- 容器将动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/merchant_get_all_orders')
+                .then(response => response.json())
+                .then(orders => {
+                    const orderButtonsContainer = document.getElementById('order-buttons-container');
+                    if (!orderButtonsContainer) {
+                        console.error('Container for shop buttons not found.');
+                        return;
+                    }
+
+                    // Group orders by order_id
+                    const groupedOrders = {};
+                    orders.forEach(order => {
+                        if (!groupedOrders[order.order_id]) {
+                            groupedOrders[order.order_id] = {
+                                order_id: order.order_id,
+                                total_price: order.total_price,
+                                address: order.cus_address, // Replace with actual address if available
+                                status:order.order_status,
+                                foodItems: []
+                            };
+                        }
+                        groupedOrders[order.order_id].foodItems.push({
+                            name: order.menu_name,
+                            quantity: order.menu_item_count
+                        });
+                    });
+
+                    Object.values(groupedOrders).forEach(order => {
+                        const button = document.createElement('button');
+                        button.textContent = 'Order ' + order.order_id;
+                        button.classList.add('order-button');
+                        button.addEventListener('click', () => {
+                            const containerId = 'order' + order.order_id + '-info';
+                            showOrder(containerId);
+                            displayOrderDetails(
+                                containerId,
+                                order.address,
+                                order.foodItems,
+                                order.total_price,
+                                order.status
+                            );
+                        });
+
+                        orderButtonsContainer.appendChild(button);
+
+                        // Create corresponding order container dynamically
+                        const orderContainer = document.createElement('div');
+                        orderContainer.id = 'order' + order.order_id + '-info';
+                        orderContainer.classList.add('order');
+                        orderContainer.style.display = 'none';
+                        orderContainer.innerHTML = '<ul><li>Order ' + order.order_id + ' Details</li></ul>';
+                        document.querySelector('.order-information').appendChild(orderContainer);
+                    });
+                })
+                .catch(error => console.error('Error fetching orders:', error));
+        });
+
+        function showOrder(containerId) {
+            const orders = document.querySelectorAll('.order');
+            orders.forEach(order => order.style.display = 'none');
+            const targetOrder = document.getElementById(containerId);
+            if (targetOrder) {
+                targetOrder.style.display = 'block';
+            } else {
+                console.error(`Order container with id ${containerId} not found.`);
+            }
+        }
+
+
+        function displayOrderDetails(containerId, address, foodItems, totalPrice,order_status) {
+            let orderContainer = document.querySelector(`#${containerId}`);
+            if (!orderContainer) {
+                console.error(`Container with id ${containerId} not found.`);
+                return;
+            }
+
+            // 构造菜品列表
+            let foodListHTML = '';
+            foodItems.forEach(item => {
+                foodListHTML += `<li>${item.name}  ×  ${item.quantity}</li>`;
+            });
+            if(order_status!=0){
+                orderContainer.innerHTML = `
+                <div class="customer-info">
+                    <img src="{{ url_for('static', filename='img/cus_order/customer.png') }}"  class="customer-avatar">
+                    <div class="order-details">
+                        <div class="order-address">地址: ${address}</div>
+                        <div class="order-items">
+                            <ul>
+                                ${foodListHTML}
+                            </ul>
+                        </div>
+                        <div class="total_price">总价格：${totalPrice}</div>
+                        <div class="order-completed">
+                            <button class="complete-btn" style="background-color: rgb(255, 129, 45)">✔️</button>
+                            出餐完成
+                        </div>
+                    </div>
+                </div>
+            `;
+            }
+            else{
+                orderContainer.innerHTML = `
+                <div class="customer-info">
+                    <img src="{{ url_for('static', filename='img/cus_order/customer.png') }}" class="customer-avatar">
+                    <div class="order-details">
+                        <div class="order-address">地址: ${address}</div>
+                        <div class="order-items">
+                            <ul>
+                                ${foodListHTML}
+                            </ul>
+                        </div>
+                        <div class="total_price">总价格：${totalPrice}</div>
+                        <div class="order-completed">
+                            <button class="complete-btn" onclick="toggleComplete('${containerId}', this)">✔️</button>
+                            出餐完成
+                        </div>
+                    </div>
+                </div>
+            `;
+            }
+
+        }
+
+        function toggleComplete(containerId,button) {
+            button.style.backgroundColor = 'rgb(255, 129, 45)';
+            button.disabled = true;
+
+            const order_id = parseInt(containerId.match(/\d+/g));
+            var data = { 'state': 'ok','order_id':order_id};
+            var jsonData = JSON.stringify(data);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/merchant_send_state', true);
+            xhr.setRequestHeader('Content-type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    console.log(response);
+                }
+            };
+            xhr.send(jsonData);
+        }
+    </script>
+</body>
+
+</html>

@@ -56,7 +56,7 @@ def create_rider(rider_identity, rider_phone,licence_plate, username, password):
         username=username,
         licence_plate=licence_plate,
         password=password,
-        status=False  # 初始状态为空闲
+        status=True  # 初始状态为空闲
     )
     # 插入骑手信息到数据库
     rider.insert_into_db()
@@ -89,6 +89,77 @@ def  login_rider(rider_phone,password):
 
     finally:
         connection.close()
+
+def get_rider_id(rider_phone):
+    connection = pymysql.connect(
+        host='localhost',
+        user='food_root_user',
+        password='Aa123456_',
+        database='sleepyfood'
+    )
+    try:
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM rider where rider_phone=%s"
+            cursor.execute(sql,(rider_phone,))
+            result = cursor.fetchall()
+            return result[0][0]
+    finally:
+        connection.close()
+
+def rider_get_all_orders(rider_id):
+    connection = pymysql.connect(
+        host='localhost',
+        user='food_root_user',
+        password='Aa123456_',
+        database='sleepyfood'
+    )
+    try:
+        with connection.cursor() as cursor:
+            sql = """
+                        SELECT order_id,cus_address,shop_address,order_status
+                        FROM Orders
+                        WHERE rider_id = %s
+                        """
+            cursor.execute(sql, (rider_id,))
+            result = cursor.fetchall()
+            orders = []
+            for row in result:
+                orders.append({
+                    'order_id': row[0],
+                    'cus_address': row[1],
+                    'shop_address': row[2],
+                    'order_status': row[3]
+                })
+            return orders
+    finally:
+        connection.close()
+def recover_rider_status(order_id):
+    connection = pymysql.connect(
+        host='localhost',
+        user='food_root_user',
+        password='Aa123456_',
+        database='sleepyfood'
+    )
+    try:
+        with connection.cursor() as cursor:
+            sql = """SELECT rider_id FROM Orders WHERE order_id = %s"""
+            cursor.execute(sql, (order_id,))
+            rider_id=cursor.fetchall()[0][0]
+            print('rider_id', rider_id)
+            cursor.execute("UPDATE rider SET status = True WHERE rider_id = %s", (rider_id,))
+            cursor.execute("UPDATE orders SET order_status = 2 WHERE order_id = %s", (order_id,))
+            connection.commit()
+            # print(rider_id)
+            cursor.execute("SELECT * FROM rider WHERE rider_id = %s", (rider_id,))
+            result = cursor.fetchone()
+            # print(result)
+    except Exception as e:
+        # 发生错误时回滚事务
+        connection.rollback()
+        print("Error:", e)
+    finally:
+        connection.close()
+
 
 if __name__ == "__main__":
     # 从键盘输入骑手信息

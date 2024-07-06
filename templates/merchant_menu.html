@@ -5,59 +5,149 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商家菜品</title>
-    <link rel="stylesheet" href="merchant_menu.css">
+    <link rel="stylesheet" href="static/css/merchant_menu.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|Carter+One|Yatra+One">
 </head>
 
 <body>
     <nav>
         <ul>
-            <li><img src="images/商家菜品/logo.png" alt="标识" class="icon"></li>
-            <li><a href="merchant_menu.html" style="text-decoration: underline;font-size: 25px;">MENU</a></li>
-            <li><a href="merchant_order.html">ORDER</a></li>
-            <img src="images/商家订单/merchant.png" alt="头像" class="user">
+            <li><img src="{{ url_for('static', filename='img/icon.png') }}" alt="标识" class="icon"></li>
+            <li><a href="{{ url_for('merchant_dashboard') }}" style="text-decoration: underline;font-size: 25px;">MENU</a></li>
+            <li><a href="{{ url_for('merchant_order') }}">ORDER</a></li>
+            <img src="{{ url_for('static', filename='img/merchant.png') }}" alt="头像" class="user">
         </ul>
     </nav>
 
     <div class="container" style="height: 80vh;">
         <div class="foods">
             <h2>菜品列表</h2>
-            <div class="food-buttons">
-                <button id="food1" onclick="showFood('food1')">Food 1</button>
-                <button id="food2" onclick="showFood('food2')">Food 2</button>
-                <button id="food3" onclick="showFood('food3')">Food 3</button>
+            <div class="food-buttons" id="food-buttons-container">
+            </div>
+            <div class="food-buttons" >
+                <!-- 这里将动态添加数据库中的按钮 -->
                 <button id="add-food-button">+</button>
-
-                <!-- 添加更多菜品按钮 -->
             </div>
         </div>
 
         <div class="main-content">
             <div class="food-information">
-                <h2>菜品信息</h2>
-                <div id="food1-info" class="food">
-                    <ul>
-                        <li>Food 1 Details</li>
-                    </ul>
-                </div>
-                <div id="food2-info" class="food" style="display: none;">
-                    <ul>
-                        <li>Food 2 Details</li>
-                    </ul>
-                </div>
-                <div id="food3-info" class="food" style="display: none;">
-                    <ul>
-                        <li>Food 3 Details</li>
-
-                    </ul>
-                </div>
+{#                <h2>菜品信息</h2>#}
+{#                <div id="food1-info" class="food">#}
+{#                    <ul>#}
+{#                        <li>Food 1 Details</li>#}
+{#                    </ul>#}
+{#                </div>#}
+{#                <div id="food2-info" class="food" style="display: none;">#}
+{#                    <ul>#}
+{#                        <li>Food 2 Details</li>#}
+{#                    </ul>#}
+{#                </div>#}
+{#                <div id="food3-info" class="food" style="display: none;">#}
+{#                    <ul>#}
+{#                        <li>Food 3 Details</li>#}
+{#                    </ul>#}
+{#                </div>#}
                 <!-- 添加更多菜品对应的商品列表 -->
             </div>
         </div>
     </div>
 
-    <script src="merchant_menu.js"></script>
+    <script>
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     fetch('/get_all_foods')
+        //         .then(response => response.json())
+        //         .then(foods => {
+        //             const foodButtonsContainer = document.getElementById('food-buttons-container');
+        //             if (!foodButtonsContainer) {
+        //                 console.error('Container for shop buttons not found.');
+        //                 return;
+        //             }
+        //             foods.forEach(food => {
+        //                 const button = document.createElement('button');
+        //                 button.textContent = food.name;
+        //                 button.classList.add('food-button');
+        //                 button.addEventListener('click', () => {
+        //                     showFood(`food${food.id}-info`);
+        //                 });
+        //                 foodButtonsContainer.appendChild(button);
+        //             });
+        //         })
+        //         .catch(error => console.error('Error fetching foods:', error));
+        // });
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/get_all_foods')
+                .then(response => response.json())
+                .then(foods => {
+                    const foodButtonsContainer = document.getElementById('food-buttons-container');
+                    if (!foodButtonsContainer) {
+                        console.error('Container for shop buttons not found.');
+                        return;
+                    }
+                    foods.forEach(food => {
+                        const button = document.createElement('button');
+                        button.textContent = food.name;
+                        button.classList.add('food-button');
+                        button.addEventListener('click', () => {
+                            // showFood(food.name, food.price);
+                            displayFoodDetails(food.name, food.price)
+                        });
+                        foodButtonsContainer.appendChild(button);
+                    });
+                })
+                .catch(error => console.error('Error fetching foods:', error));
+        });
+        document.getElementById('add-food-button').addEventListener('click', function() {
+            let foodName = prompt('请输入菜品名称');
+            if (!foodName) return;  // 如果未输入名称，直接返回
+
+            let foodPrice = prompt('请输入菜品价格');
+            if (!foodPrice) return;  // 如果未输入价格，直接返回
+
+            let newButton = document.createElement('button');
+            console.log(foodName);
+            newButton.textContent = foodName;
+            newButton.onclick = function() {
+                displayFoodDetails(foodName, foodPrice);
+            };
+            var data = { 'name': foodName, 'price': foodPrice };
+            var jsonData = JSON.stringify(data);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/send_food', true);
+            xhr.setRequestHeader('Content-type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    console.log(response);
+                }
+            };
+            xhr.send(jsonData);
+            let addButton = document.getElementById('add-food-button');
+            addButton.parentNode.insertBefore(newButton, addButton);
+        });
+
+        function displayFoodDetails(name, price) {
+            let foodInfoContainer = document.querySelector('.food-information');
+            foodInfoContainer.innerHTML = `
+        <h2>菜品信息</h2>
+        <div class="food">
+            <ul>
+                <li>菜品名称: ${name}</li>
+                <li>菜品价格: ${price}</li>
+            </ul>
+        </div>
+    `;
+        }
+
+        // function showFood(foodId) {
+        //     console.log(foodId)
+        //     let allFoods = document.querySelectorAll('.food-information .food');
+        //     allFoods.forEach(food => food.style.display = 'none');
+        //     document.getElementById(`${foodId}-info`).style.display = 'block';
+        // }
+
+    </script>
 </body>
 
 </html>
-

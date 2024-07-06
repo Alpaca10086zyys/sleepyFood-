@@ -7,7 +7,6 @@
     <title>顾客地址</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|Carter+One|Yatra+One">
     <style>
-
         .icon {
             position: absolute;
             top: 10px;
@@ -74,6 +73,9 @@
             background-color: white;
         }
 
+        .user {
+            width: 5%;
+        }
 
         body {
             font-family: Arial, sans-serif;
@@ -94,12 +96,17 @@
         .address-list {
             border-radius: 20px;
             background: rgb(245, 232, 214);
-            width: 35%;
+            width: 20%;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
+        }
+
+        .address-list h2 {
+            text-align: center;
+            margin-bottom: 10px;
         }
 
         .add-button:hover {
@@ -120,10 +127,10 @@
             background: rgb(245, 232, 214);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 10px;
-            width: 60%;
+            width: 75%;
             padding: 10px;
             box-sizing: border-box;
-            margin-left: 10px;
+            margin-left: 20px;
         }
 
         .address-button {
@@ -132,8 +139,8 @@
             background: rgb(234, 217, 192);
             display: block;
             width: 80%;
-            margin-bottom: 10px;
-            padding: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
             cursor: pointer;
         }
 
@@ -143,7 +150,7 @@
             display: inline-block;
             border: none;
             width: 85%;
-
+            height: 20%;
             padding: 30px;
             margin-bottom: 30px;
             cursor: pointer;
@@ -160,8 +167,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 80%;
-            padding: 10px;
+            width: 75%;
+            padding: 15px;
             cursor: pointer;
         }
 
@@ -223,6 +230,7 @@
 
 <div class="container">
     <div class="address-list">
+        <h2>地址信息</h2>
         <div class="add-button" onclick="addAddress()">+</div>
     </div>
     <div class="address-info" id="address-info">
@@ -237,15 +245,28 @@
         loadAddresses();
     });
 
+
+
     function loadAddresses() {
-        let addresses = JSON.parse(localStorage.getItem('addresses')) || [];
-        let addressList = document.querySelector('.address-list');
+        fetch('/get_addresses')  // 发送 GET 请求到 Flask 后端路由
+            .then(response => response.json())
+            .then(data => {
+                let addressList = document.querySelector('.address-list');
+                addressList.innerHTML = ''; // 清空之前的地址列表
 
-        addresses.forEach((address, index) => {
-            createAddressButton(address, index);
-        });
+                data.forEach((address, index) => {
+                    createAddressButton(address, index);
+                });
+
+                // 重新添加加号按钮
+                var addButton = document.createElement('div');
+                addButton.classList.add('add-button');
+                addButton.setAttribute('onclick', 'addAddress()');
+                addButton.textContent = '+';
+                addressList.appendChild(addButton);
+            })
+            .catch(error => console.error('Error loading addresses:', error));
     }
-
     function addAddress() {
         var addressInput = prompt('请输入地址');
 
@@ -253,15 +274,29 @@
         if (!addressInput || addressInput.trim() === '') {
             return;
         }
-
-        let addresses = JSON.parse(localStorage.getItem('addresses')) || [];
-        addresses.push(addressInput);
-        localStorage.setItem('addresses', JSON.stringify(addresses));
-
-        createAddressButton(addressInput, addresses.length - 1);
+        fetch('/add_address', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({address: addressInput})
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    loadAddresses(); // 重新加载地址列表
+                } else {
+                    alert('Failed to add address.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
 
-    function createAddressButton(address, index) {
+    function createAddressButton(addressObj, index) {
+        var address = addressObj.address;
+        var index = addressObj.id;
         var firstThreeChars = address.substring(0, 3);
         var addressList = document.querySelector('.address-list');
 
@@ -281,26 +316,37 @@
         container.appendChild(deleteButton);
 
         // 在添加按钮之前插入新的地址按钮容器
+        console.log('渲染了+');
         addressList.insertBefore(container, document.querySelector('.add-button'));
     }
 
     function deleteAddress(index) {
-        let addresses = JSON.parse(localStorage.getItem('addresses')) || [];
-        addresses.splice(index, 1);
-        localStorage.setItem('addresses', JSON.stringify(addresses));
 
-        // 重新加载地址按钮
-        document.querySelector('.address-list').innerHTML = '';
-        addresses.forEach((address, index) => {
-            createAddressButton(address, index);
-        });
-
-        // 重新添加添加地址按钮
-        var addButton = document.createElement('div');
-        addButton.classList.add('add-button');
-        addButton.setAttribute('onclick', 'addAddress()');
-        addButton.textContent = '+';
-        document.querySelector('.address-list').appendChild(addButton);
+        {#let addresses = JSON.parse(localStorage.getItem('addresses')) || [];#}
+        {#addresses.splice(index, 1);#}
+        {#localStorage.setItem('addresses', JSON.stringify(addresses));#}
+        fetch(`/delete_address/${index}`, {
+            method: 'DELETE',
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to delete address');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 处理删除成功的情况，例如刷新地址列表或者给出提示信息
+                console.log('Address deleted:', data.message);
+                // 重新加载地址列表或者更新页面显示
+                loadAddresses();  // 示例中假设有一个加载地址的函数
+            })
+            .catch(error => {
+                console.error('Error deleting address:', error);
+                // 处理删除失败的情况，显示错误信息或者提示用户重试
+                alert('删除地址失败，请重试');
+            });
+        var addressInfo = document.getElementById('address-info');
+        addressInfo.textContent = "";
     }
 
     function showAddress(address) {

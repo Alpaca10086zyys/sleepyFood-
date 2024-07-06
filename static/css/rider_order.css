@@ -64,7 +64,7 @@ body {
     margin: 20px;
 }
 
-.foods {
+.orders {
     border-radius: 20px;
     background: rgb(245, 232, 214);
     width: 20%;
@@ -72,16 +72,16 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.foods h2 {
+.orders h2 {
     text-align: center;
     margin-bottom: 25px;
 }
 
-.food-buttons {
+.order-buttons {
     text-align: center;
 }
 
-.food-buttons button {
+.order-buttons button {
     border-radius: 20px;
     background: rgb(245, 220, 184);
     display: inline-block;
@@ -93,7 +93,7 @@ body {
     font-size: 20px;
 }
 
-.food-buttons button:hover {
+.order-buttons button:hover {
     background: rgb(252, 223, 182);
 }
 
@@ -109,22 +109,71 @@ body {
     border-radius: 20px;
 }
 
-.food {
+.order {
     display: inline-block;
     border-radius: 20px;
     vertical-align: top;
+    font-size: 1.2em;
 }
 
-.food-information {
+.order-information h2 {
     width: 20%;
 }
 
-.food-information h2 {
+.order-information h2 {
     text-align: left;
     margin-left: 20%;
     margin-bottom: 10px;
 }
 
-.user {
-    width: 5%;
+.customer-info {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.customer-avatar {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    margin-right: 20px;
+}
+
+.order-details {
+    flex: 1;
+    width: 500px;
+}
+
+.order-id {
+    background: rgb(245, 220, 184);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 15%;
+}
+
+.merchant-address, .customer-address {
+    background: rgb(245, 220, 184);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 80%;
+}
+
+.total_price, .order-completed {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.complete-btn {
+    background-color: grey;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.complete-btn:focus {
+    outline: none;
 }
