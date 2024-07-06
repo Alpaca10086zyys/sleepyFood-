@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|Carter+One|Yatra+One">
 </head>
 
-<body>
+<body style="cursor: url('{{ url_for('static', filename='img/doughnut.png') }}')">
     <nav>
         <ul>
             <li><img src="{{ url_for('static', filename='img/icon.png') }}" alt="标识" class="icon"></li>
@@ -31,7 +31,7 @@
         </div>
 
         <div class="main-content">
-            <div class="food-information">
+            <div class="food-information" style="background-image: url('{{ url_for('static', filename='img/boxbkgd.png') }}')">
 {#                <h2>菜品信息</h2>#}
 {#                <div id="food1-info" class="food">#}
 {#                    <ul>#}

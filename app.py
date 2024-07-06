@@ -27,6 +27,10 @@ merchant_id = 0
 rider_id = 0
 # login界面
 @app.route('/')
+def cover():  # put application's code here
+    return render_template('cover.html')
+
+@app.route('/login')
 def login():  # put application's code here
     return render_template('login.html')
 
@@ -243,6 +247,7 @@ def customer_submit_order():
 
 @app.route('/merchant_dashboard')
 def merchant_dashboard():
+    print("merchant_dashboard")
     return render_template('merchant_menu.html')
 
 @app.route('/get_all_foods')

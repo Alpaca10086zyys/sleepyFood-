@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleepyfood cover</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: rgb(244, 236, 225);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        nav img {
+            position: absolute;
+            height: 45px;
+            /* 根据实际情况调整图片高度 */
+            margin-top: 23px;
+            margin-left: 13px;
+            /* 图片和文本之间的间距 */
+            vertical-align: middle;
+            /* 垂直居中对齐 */
+        }
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            {#background-image: url("images/封面/cover.png");#}
+            {#background-image: {{ url_for('static',filename='img/cover.png') }};#}
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+
+        .try {
+            position: absolute;
+            left: 10%;
+            bottom: 40%;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 25px;
+            cursor: pointer;
+            font: 1.2em sans-serif ;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .try:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="background-image" style="background-image: url('{{ url_for('static', filename='img/cover.png') }}');"><nav>
+        <ul>
+            <img src="{{ url_for('static',filename='img/icon.png')}}" alt="标识" class="icon">
+        </ul>
+    </nav></div>
+    <button class="try" onclick="window.location.href='{{ url_for('login') }}'">TRY NOW</button>
+</body>
+</html>

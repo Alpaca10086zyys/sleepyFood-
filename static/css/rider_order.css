@@ -74,7 +74,7 @@ body {
 
 .orders h2 {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 
 .order-buttons {
@@ -87,8 +87,8 @@ body {
     display: inline-block;
     border: none;
     width: 85%;
-    padding: 20px;
-    margin-bottom: 25px;
+    padding: 30px;
+    margin-bottom: 30px;
     cursor: pointer;
     font-size: 20px;
 }
@@ -116,16 +116,19 @@ body {
     font-size: 1.2em;
 }
 
-.order-information h2 {
-    width: 20%;
+.order-information {
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    /*background-image: url("images/images/boxbkgd.png");*/
+    border-radius: 20px;
 }
 
 .order-information h2 {
     text-align: left;
-    margin-left: 20%;
-    margin-bottom: 10px;
+    margin-left: 3%;
+    margin-bottom: 25px;
 }
-
 .customer-info {
     display: flex;
     align-items: center;
@@ -144,7 +147,7 @@ body {
     width: 500px;
 }
 
-.order-id {
+.order-id{
     background: rgb(245, 220, 184);
     padding: 10px;
     border-radius: 10px;
@@ -152,7 +155,7 @@ body {
     width: 15%;
 }
 
-.merchant-address, .customer-address {
+.merchant-address, .customer-address{
     background: rgb(245, 220, 184);
     padding: 10px;
     border-radius: 10px;

@@ -1,3 +1,7 @@
+/*body{*/
+/*    !*cursor:url("images/食物/doughnut.png"),auto;*!*/
+/*}*/
+
 .icon {
     position: absolute;
     top: 10px;
@@ -30,6 +34,7 @@ nav li a {
     text-decoration: none;
     width: 90%;
     box-sizing: border-box;
+    font-family:'Yatra One';
 }
 
 nav li img {
@@ -110,19 +115,23 @@ body {
 }
 
 .food {
-    display: inline-block;
+     display: inline-block;
     border-radius: 20px;
     vertical-align: top;
 }
 
 .food-information {
-    width: 20%;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    /*background-image: url("images/images/boxbkgd.png");*/
+    border-radius: 20px;
 }
 
 .food-information h2 {
     text-align: left;
-    margin-left: 20%;
-    margin-bottom: 10px;
+    margin-left: 3%;
+    margin-bottom: 25px;
 }
 
 .user {
