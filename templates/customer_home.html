@@ -44,6 +44,7 @@
             /* 使用宽度撑满 flex 容器的空间 */
             box-sizing: border-box;
             /* 确保 padding 不会影响到元素宽度 */
+            font-family:'Yatra One';
         }
 
         nav li img {
@@ -297,7 +298,7 @@
     function createAddressButton(addressObj, index) {
         var address = addressObj.address;
         var index = addressObj.id;
-        var firstThreeChars = address.substring(0, 3);
+        var firstThreeChars = address.substring(0, 4);
         var addressList = document.querySelector('.address-list');
 
         var addressButton = document.createElement('div');

@@ -82,7 +82,7 @@
 <img src="{{ url_for('static', filename='img/icon.png') }}" alt="标识" class="icon">
 <div class="container">
     <h2>商家注册</h2>
-    <form action="/register_merchant" method="post">
+    <form action="/register_merchant" method="post" onsubmit="return validateForm()">
         <div class="form-group">
             <input type="text" id="id_number" name="id_number" placeholder="身份证号" required>
         </div>
@@ -105,5 +105,28 @@
     </form>
 </div>
 </body>
+<script>
+    function validateForm() {
+        var idNumberInput = document.getElementById("id_number");
+        var licenseNumberInput = document.getElementById("license_number");
+        var phoneInput = document.getElementById("phone");
 
+        if (idNumberInput.value.length !== 18) {
+            alert("身份证号必须是18位！");
+            return false;
+        }
+
+        if (licenseNumberInput.value.length !== 15) {
+            alert("经营许可证号必须是15位！");
+            return false;
+        }
+
+        if (phoneInput.value.length !== 11) {
+            alert("手机号码必须是11位！");
+            return false;
+        }
+
+        return true;
+    }
+</script>
 </html>
