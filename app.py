@@ -250,20 +250,18 @@ def merchant_dashboard():
     print("merchant_dashboard")
     return render_template('merchant_menu.html')
 
+# 显示已有菜单
 @app.route('/get_all_foods')
 def foods():
     global merchant_id
     return jsonify(get_all_foods(merchant_id))
+
+# 添加菜品到菜单
 @app.route('/send_food', methods=['POST'])
 def send_foods():
     data = request.get_json()
     name = data['name']
     price = data['price']
-    print(name)
-    print(price)
-
-    # 处理数据的逻辑代码
-
     global merchant_id
     print(merchant_id)
     insert_food(merchant_id, name, price)
@@ -273,6 +271,8 @@ def send_foods():
 @app.route('/merchant_order')
 def merchant_order():
     return render_template('merchant_order.html')
+
+# 商家发送订单状态（出餐）
 @app.route('/merchant_send_state', methods=['POST'])
 def send_state():
     try:
@@ -289,6 +289,8 @@ def send_state():
     except Exception as e:
         response = {'message': 'Invalid data format'}
         return jsonify(response), 400
+
+# 商家界面显示所有订单列表
 @app.route('/merchant_get_all_orders')
 def merchant_get_all_order():
     global merchant_id
@@ -302,12 +304,16 @@ def rider_dashboard():
 @app.route('/rider_map')
 def rider_map():
     return render_template('rider_map.html')
+
+# 骑手界面打印订单列表
 @app.route('/rider_get_all_orders')
 def rider_get_all_order():
     global rider_id
     print('rider_id',rider_id)
     print(rider_get_all_orders(rider_id))
     return jsonify(rider_get_all_orders(rider_id))
+
+# 骑手发送订单状态（送餐）
 @app.route('/rider_send_state', methods=['POST'])
 def rider_send_state():
     try:
