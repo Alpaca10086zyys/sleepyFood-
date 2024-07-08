@@ -75,7 +75,7 @@ def  login_merchant(merchant_phone,password):
             print(result)
             if result:
                 # Customer exists, now check if the password matches
-                stored_password = result[1]
+                stored_password = result[3]
                 if stored_password == password:
                     return True
                 else:

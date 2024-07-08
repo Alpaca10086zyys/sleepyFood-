@@ -53,7 +53,7 @@
             startY = e.clientY;
             initialX = img.offsetLeft;
             initialY = img.offsetTop;
-            img.style.cursor = 'grabbing';
+            img.style.cursor = "url('../static/img/bike.png'), auto";
             e.preventDefault();
         });
 
@@ -90,7 +90,7 @@
 
         document.addEventListener('mouseup', function() {
             isDragging = false;
-            img.style.cursor = 'grab';
+            img.style.cursor = "url('../static/img/bike.png'), auto";
         });
         document.addEventListener('DOMContentLoaded', () => {
             fetch('/rider_get_all_orders')
