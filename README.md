@@ -2,7 +2,7 @@
 企业实训小组作业--外卖管理系统
 
 ## 项目介绍
-本项目由本组成员通力完成，本组成员有前端组：@wyxzc和@despereaten，和后端组：@Alpaca10086zyys和@suiicvc。
+本项目由本组成员通力完成，本组成员有前端组：[@wyxzc](https://github.com/wyxzc)和[@despereaten](https://github.com/despereaten)，和后端组：[@Alpaca10086zyys](https://github.com/Alpaca10086zyys)和[@suiicvc](https://github.com/suiicvc)。
 实现的基本功能为外卖管理系统，三个不同角色的注册登录和基本操作。后端框架为Flask框架，前端由html+css+js三件套完成，database为MySQL。
 
 ## 使用方法
