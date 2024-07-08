@@ -78,7 +78,7 @@ def  login_rider(rider_phone,password):
             print(result)
             if result:
                 # Customer exists, now check if the password matches
-                stored_password = result[2]
+                stored_password = result[5]
                 if stored_password == password:
                     return True
                 else:
