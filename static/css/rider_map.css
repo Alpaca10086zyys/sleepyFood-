@@ -145,5 +145,5 @@ body {
 
 .draggable-image {
     position: absolute;
-    cursor: grab;
+    cursor: url('../img/bike.png'), auto;
 }
